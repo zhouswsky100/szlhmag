@@ -1,0 +1,43 @@
+body{
+    margin:0;
+    font-family:microsoft yahei
+}
+.roate-container{
+    position:relative;
+    margin:0 auto;
+    width:779px;
+    height:623px;
+    background:url(../images/fenxi/roate-bg.png) no-repeat}
+    .screen-bg{
+        position:absolute;
+        left:88px;
+        top:295px;
+        width:462px;
+        height:374px;
+        background-repeat:no-repeat;
+        z-index:5
+}
+.roate-item{
+    position:absolute;
+    left:0;
+    top:0;
+    width:8px;
+    height:8px;
+    border-radius:4px;
+    font-size:0;
+    background:url(../images/fenxi/icon-item.png) no-repeat;
+    z-index:9}
+    .icon-roate-1,.icon-roate-2,.icon-roate-3,.icon-roate-4,.icon-roate-5,.icon-roate-6,.icon-roate-7,.icon-roate-8{width: 80px;;height:80px;background-repeat:no-repeat}
+    .icon-sq-1{width:54px;height:43px;background:url(../images/fenxi/icon-sq-1.png) no-repeat}
+    .icon-sq-2{width:28px;height:22px;background:url(../images/fenxi/icon-sq-2.png) no-repeat}
+     #roate1{height:70%;z-index: 1000;}
+    .screen-bg{background-image:url(../images/fenxi/bg3.png);}
+    .icon-roate-1{background-image:url(../images/fenxi/yjs.png)}
+    .icon-roate-2{background-image:url(../images/fenxi/cz.png)}
+    .icon-roate-3{background-image:url(../images/fenxi/zr.png)}
+    .icon-roate-4{background-image:url(../images/fenxi/tj.png)}
+    .icon-roate-5{background-image:url(../images/fenxi/sj.png)}
+    .icon-roate-6{background-image:url(../images/fenxi/sw.png)}
+    .icon-roate-7{background-image:url(../images/fenxi/gz.png)}
+    .icon-roate-8{background-image:url(../images/fenxi/fg.png)}
+    .imgs{width: 40%}
