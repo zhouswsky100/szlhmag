@@ -1,18 +1,18 @@
 <template>
-    <div class="cont">
+    <div class="cont " >
         <p class="title">{{params.year}}一般公共预算数据关系</p>
         <div class="flexs">
-            <div class="child"  v-show="child1"> 
-                <div class="flx" v-for= "item in incomData.bord"  v-if="incomData.bord!=null" style="margin-bottom: 50px;">
-                    <div class="box bk cursor g-mt-50 cursor" v-if="item.sum"  :style="{ height:item.sum<50? '50px': item.sum*0.7 + 'px',width:item.sum<50? '50px': item.sum*0.7+ 'px' }">
+            <div class="child" v-show="stat==0" > 
+                <div class="flx" v-for= "item in incomData.bord" v-show="item.sum>0" v-if="incomData.bord!=null" style="margin-bottom: 50px;">
+                    <div class="box bk cursor g-mt-50 cursor"   :style="{ height:item.sum<50? '50px': item.sum*0.7 + 'px',width:item.sum<50? '50px': item.sum*0.7+ 'px' }">
                         <p class="boxtxt" >{{item.sum}}</p>
                     </div>
                     <p class="g-mt-10 name"   v-if="item.sum">{{item.name.split('、')[1]}}</p>
                 </div>
             </div>
-            <div class="child"  v-show="child2" > 
-                <div class="flx" v-for= "item in incomData2.bord"  v-if="incomData2.bord!=null" style="margin-bottom: 50px;">
-                    <div class="box bk  g-mt-50 cursor"  v-if="item.sum" :style="{ height:item.sum<50? '50px': item.sum*0.7 + 'px',width:item.sum<50? '50px': item.sum*0.7+ 'px' }">
+            <div class="child" v-show="stat==1" > 
+                <div class="flx "   v-show="item.sum>0"  v-for= "item in incomData.bord"  v-if="incomData.bord!=null" style="margin-bottom: 50px;">
+                    <div class="box bk  g-mt-50 cursor" :style="{ height:item.sum<50? '50px': item.sum*0.7 + 'px',width:item.sum<50? '50px': item.sum*0.7+ 'px' }">
                         <p class="boxtxt" >{{item.sum}}</p>
                     </div>
                     <p class="g-mt-10 name"   v-if="item.sum">{{item.name}}</p>
@@ -20,7 +20,7 @@
             </div>
             <div class="fbox">
                 <div class="boxs" style="top:120px">
-                    <div class="flx" @click="showChild('本级收入合计')">
+                    <div class="flx " @click="showChild('本级收入合计')">
                         <div class="box bk g-mt-50 cursor"  v-if="baseData.jMap!=null" :style="{ height: baseData.jMap[1][0].sum<50? '50px': baseData.jMap[1][0].sum + 'px',width:baseData.jMap[1][0].sum<50? '50px': baseData.jMap[1][0].sum + 'px' }">
                             <p class="boxtxt" >{{baseData.jMap[1][0].sum}}</p>
                         </div>
@@ -61,7 +61,6 @@
                 size="30%"
                 :modal='false'
                 >
-           
                 <el-radio-group v-model="tabPosition" style="margin-bottom: 30px;">
                     <el-radio-button label="数据分析" @click="tabPosition='数据分析'">数据分析</el-radio-button>
                     <el-radio-button label="检测预警" @click="tabPosition='检测预警'">检测预警</el-radio-button>
@@ -75,9 +74,40 @@
                         <div id="main4"></div>
                     </div>
                 </div>
-                <div v-show="tabPosition=='检测预警'">检测预警</div>
-                <div v-show="tabPosition=='对应单位'">对应单位</div>
-                <div v-show="tabPosition=='说明'">说明</div>
+                <div v-show="tabPosition=='检测预警'">
+                    <p class="tabtit">{{title}}</p>
+                    <el-table
+                        :data="tableData"
+                        style="width: 100%">
+                            <el-table-column
+                            prop="date"
+                            label="警示灯"
+                            width="150">
+                            </el-table-column>
+                            <el-table-column
+                            prop="name"
+                            label="预警指标">
+                            </el-table-column>
+                            <el-table-column
+                            prop="province"
+                            label="指标结果">
+                            </el-table-column>
+                    </el-table>
+                </div>
+                <div v-show="tabPosition=='对应单位'">
+                    <p class="tabtit">{{title}}</p>
+                </div>
+                <div v-show="tabPosition=='说明'">
+                    <p class="tabtit">{{title}}</p>
+                    <el-tree 
+                        ref="explanTree" lazy  
+                        @node-click="handleNodeClick"
+                       :load="initExplain"
+                       :data="explainData"
+                       :props="defaultProps"
+
+                     ></el-tree>
+                </div>
                 <span slot="title">{{title}}</span>
             </el-drawer>     
         </div>     
@@ -85,7 +115,7 @@
 </template>
 <script>
 import echarts from 'echarts'
-import {toGGYSMapPage,queryBudgetGGYSTax,queryBudgetGGYSByTID} from "@/api/budget/";
+import {toGGYSMapPage,queryBudgetGGYSTax,queryBudgetGGYSByTID,querySubjectLevel} from "@/api/budget/";
 import  '@/assets/css/index.css' 
 import ToolBar from '@/components/ToolBar/ToolBar.vue';
 import store from '@/store';
@@ -93,8 +123,8 @@ import store from '@/store';
         data() {
             return {
                 baseData:{},
+                tableData:[],
                 incomData:{},
-                incomData2:{},
                 params:{
                      year:this.$route.query.year,	
                 },
@@ -105,7 +135,14 @@ import store from '@/store';
                 title:'本级收入合计',
                 tabPosition: '数据分析',
                 chartData:{},
-                RMB:'亿元'
+                RMB:'亿元',
+                stat:0,
+                explainData:[],
+                defaultProps: {
+                children:"children",
+                label:"name",
+                isLeaf:"leaf"
+             }
             }
         },
         components: {
@@ -158,13 +195,12 @@ import store from '@/store';
                 myChart.setOption(option)
             },
             showChild(title){
-                this.child1 = true
-                this.child2 = false
                 this.drawer = true
                 this.title = title
                 queryBudgetGGYSTax(this.params).then(res => {
                     if (res.code === 200) {
                         this.incomData = res.data;
+                         this.stat = 0
                         this.chartData = {
                             polyline : res.data.his,
                             pie:res.data.take
@@ -173,13 +209,21 @@ import store from '@/store';
                     }
                 });
             },
-            showChild2(){
-                this.child1 = false
-                this.child2 = true
+            handleNodeClick(data) {
+                this.initExplain(data.id,true)
+            },
+            showChild2(title){
+                this.title = title
                 this.drawer = true
                 queryBudgetGGYSByTID(this.params).then(res => {
                     if (res.code === 200) {
-                        this.incomData2 = res.data;
+                        this.incomData = res.data;
+                        this.stat = 1
+                        this.chartData = {
+                            polyline : res.data.his,
+                            pie:res.data.take
+                        }
+                        this.initDraw()
                     }
                 });
             },
@@ -363,6 +407,46 @@ import store from '@/store';
                             }
                         ]
                 })
+            },
+            refreshNodeBy(id){
+                 let parentNode = this.$refs.explanTree.getNode(id);
+                // 重新调用父节点的展开方法
+                parentNode.loaded = false;
+                parentNode.expand();
+            },
+            initExplain(node, resolve){
+                let pid 
+                let params ={
+                    flag: 1 ,
+                    type:2,//分收入和支出：其中支出1：收入2
+                    code:'101,103',
+                    pid:pid
+                }
+                if (node.level != 0) {
+                    delete params.code
+                    if(node.data){
+                        params.pid = node.data.id
+                    }
+                } 
+                querySubjectLevel(params).then(res => {
+                    if (res.code === 200) {
+                        let rootChildren = [];
+                        res.data.datalist.forEach(item => {
+                            rootChildren.push({
+                                name: item.label,
+                                id: item.id,
+                                children: []
+                            });
+                        }) 
+                        if (resolve) {
+                            resolve(rootChildren);//动态加载时
+                        }else {
+                            //更新节点时：
+                            node.childNodes = [];
+                            node.doCreateChildren(rootChildren);
+                        }   
+                    }
+                });
             }
         },
         created() {
@@ -405,8 +489,15 @@ import store from '@/store';
         transition:all .4s;
         -moz-transition:all .4s;
         -webkit-transition:all .4s;
+        animation: slideInLeft 1s ease-out 0s 1 forwards;
+       -webkit-animation: slideInLeft 1s ease-out 0s 1 forwards;
         -o-transition:all .4s;
+        animation-duration: 1s;
+        animation-fill-mode: both;
+        animation-name: bounceIn;
+        z-index: 999;
     }
+    
     .flx2{
         display: flex;
         justify-content: center;
@@ -424,6 +515,7 @@ import store from '@/store';
         border-radius: 50%;
         box-sizing: content-box;
         color: #fff;
+        
         }
     .flx :hover{
       	transform:scale(1.2);
@@ -488,6 +580,9 @@ import store from '@/store';
      .drwaerCont /deep/ .el-divider--horizontal {
         margin: 10px 0;
      }
+    .drwaerCont /deep/ .el-drawer__wrapper {
+       position: static;
+     }
      #main2{
          width:400px;
          height: 250px;
@@ -500,4 +595,14 @@ import store from '@/store';
          width:200px;
          height: 220px;
      }
+     .tabtit{
+        color: #4995b5;
+        text-align: center;
+        padding: 10px;
+        font-size: 1.3vw;
+        font-weight: bold;
+        margin-top: -20px;
+        margin-bottom: 10px;
+     }
+  
 </style>

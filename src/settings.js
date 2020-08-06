@@ -21,8 +21,8 @@ module.exports = {
    */
   sidebarLogo: true,
 
-   // poxyUrl: 'http://192.168.1.4:8011',
-  poxyUrl: 'http://lh.yunbaitu.com/prod-api',
+   poxyUrl: 'http://192.168.1.4:8011',
+  //poxyUrl: 'http://lh.yunbaitu.com/prod-api',
   // poxyUrl: 'http://192.168.1.22:8011',
 
   // poxyUrl: 'http://192.168.1.9:8011',

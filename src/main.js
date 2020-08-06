@@ -22,6 +22,8 @@ import { getDicts } from "@/api/system/dict/data";
 import { getConfigKey } from "@/api/system/config";
 import { parseTime, resetForm, addDateRange, selectDictLabel, handleTree,checkPassWord } from "@/utils/ruike";
 import Pagination from "@/components/Pagination";
+import animated from 'animate.css'
+Vue.use(animated)
 let echarts = require('echarts');
 Vue.prototype.$Config = Config
 Vue.prototype.$echarts = echarts

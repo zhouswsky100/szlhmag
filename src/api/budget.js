@@ -91,5 +91,14 @@ export function queryBudgetGGYSByTID(params) {
     params: params
   })
 }
+//右侧弹出框点击“说明”标题数据
+export function querySubjectLevel(params) {
+  return request({
+    url: '/budgetfinal/budget/querySubjectLevel',
+    method: 'get',
+    params: params
+  })
+}
+
 
 
