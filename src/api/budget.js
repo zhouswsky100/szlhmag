@@ -101,4 +101,13 @@ export function querySubjectLevel(params) {
 }
 
 
+//本级收入合计->非税收入->点击子项弹出右边侧边栏
+export function queryBudgetGGYSSSByChild(params) {
+  return request({
+    url: '/budgetfinal/budget/queryBudgetGGYSSSByChild',
+    method: 'get',
+    params: params
+  })
+}
+
 
