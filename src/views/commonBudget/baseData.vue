@@ -1,51 +1,67 @@
 <template>
     <div class="cont "  ref="parent">
         <div class="flexs">
-            <div class="child " style=" flex-wrap: wrap;width:500px;flex-direction: inherit;margin-left:    0px;" v-if="ggybData.bord!=null"> 
-                <div class="flx" 
-                    v-for= "item in ggybData.bord" 
-                    v-if="item.sum>0"
-                    @click="getYsby2(item.code,item.name)"
-                    style="margin-left:30px;width:100px;height: 150px;" >
-                    <div class="box bk cursor g-mt-50 cursor" :style="{ height:item.sum<50? '50px': item.sum*0.7 + 'px',width:item.sum<50? '50px': item.sum*0.7+ 'px' }">
-                        <p class="boxtxt" >{{item.sum}}</p>
+           <!-- <div class="child " style=" flex-wrap: wrap;width:500px;flex-direction: inherit;margin-left:    0px;" v-if="ggybData.bord!=null&& stat==0"> 
+                    <div class="flx" 
+                        v-for= "(item,index)  in ggybData.bord" 
+                        :key="index"
+                        @click="getYsby2(item.code,item.name)"
+                        v-if="item.sum>0"
+                        style="margin-left:30px;width:100px;height: 150px;" >
+                        <div  class="box bk cursor g-mt-50 cursor" :style="{ height:item.sum<50? '50px': item.sum*0.7 + 'px',width:item.sum<50? '50px': item.sum*0.7+ 'px' }">
+                            <p class="boxtxt" >{{item.sum}}</p>
+                        </div>
+                        <p class="g-mt-10 name"   v-if="item.sum">{{item.name}}</p>
                     </div>
-                    <p class="g-mt-10 name"   v-if="item.sum">{{item.name}}</p>
-                </div>
+            </div>-->
+              <div class="child " style=" align-items: center; justify-content: center;flex-direction: row;writing-mode: vertical-rl;   height: 600px; flex-wrap: wrap;width:500px;margin-left:0px;" v-if="ggybData.bord!=null &&stat==0"> 
+                    <div class="flx" 
+                        v-for= "(item,index)  in ggybData.bord" 
+                        :key="index"
+                        @click="getYsby2(item.code,item.name)"
+                        v-if="item.sum>0"
+                        style="margin-left:30px;width:100px;height: 150px;" >
+                        <div  class="box bk cursor g-mt-50 cursor" :style="{ height:item.sum<50? '50px': item.sum*0.7 + 'px',width:item.sum<50? '50px': item.sum*0.7+ 'px' }">
+                            <p class="boxtxt" >{{item.sum}}</p>
+                        </div>
+                        <p class="g-mt-10 name"   v-if="item.sum">{{item.name}}</p>
+                    </div>
             </div>
             <div class="child" v-if="stat==0" > 
-                <div class="flx" 
-                    v-for= "item in incomData.bord" 
-                    v-if="incomData.bord!=null && item.sum>0" 
-                    @click="getYsby(item.code,item.name.split('、')[1])"
-                    style="margin-bottom: 50px;" >
-                    <div class="box bk cursor g-mt-50 cursor"   :style="{ height:item.sum<50? '50px': item.sum*0.7 + 'px',width:item.sum<50? '50px': item.sum*0.7+ 'px' }">
-                        <p class="boxtxt" >{{item.sum}}</p>
+                    <div class="flx" 
+                        v-for= "(item,index) in incomData.bord" 
+                        :key="index"
+                         v-if="item.sum>0"
+                        @click="getYsby(item.code,item.name.split('、')[1]),exFlg = false,ExCode=item.code"
+                        style="margin-bottom: 50px;" >
+                        <div  class="box bk cursor g-mt-50 cursor"   :style="{ height:item.sum<50? '50px': item.sum*0.7 + 'px',width:item.sum<50? '50px': item.sum*0.7+ 'px' }">
+                            <p class="boxtxt" >{{item.sum}}</p>
+                        </div>
+                        <p class="g-mt-10 name"   v-if="item.sum">{{item.name.split('、')[1]}}</p>
                     </div>
-                    <p class="g-mt-10 name"   v-if="item.sum">{{item.name.split('、')[1]}}</p>
-                </div>
             </div>
             <div class="child" v-if="stat==1" > 
-                <div class="flx "   
-                    v-for= "item in incomData.bord" 
-                    v-if="incomData.bord!=null && item.sum>0" 
-                    @click="getYsby(item.code,item.name.split('、')[1])"
-                    style="margin-bottom: 50px;">
-                    <div class="box bk  g-mt-50 cursor" :style="{ height:item.sum<50? '50px': item.sum*0.7 + 'px',width:item.sum<50? '50px': item.sum*0.7+ 'px' }">
-                        <p class="boxtxt" >{{item.sum}}</p>
+                    <div class="flx "   
+                        v-for= "(item,index) in incomData.bord" 
+                        :key="index"
+                         v-if="item.sum>0" 
+                        @click="getYsby(item.code,item.name.split('、')[1]),exFlg = false"
+                        style="margin-bottom: 50px;">
+                        <div class="box bk  g-mt-50 cursor" :style="{ height:item.sum<50? '50px': item.sum*0.7 + 'px',width:item.sum<50? '50px': item.sum*0.7+ 'px' }">
+                            <p class="boxtxt" >{{item.sum}}</p>
+                        </div>
+                        <p class="g-mt-10 name"   v-if="item.sum">{{item.name}}</p>
                     </div>
-                    <p class="g-mt-10 name"   v-if="item.sum">{{item.name}}</p>
-                </div>
             </div>
             <div class="fbox">
                 <div class="boxs" style="top:110px">
-                    <div class="flx " @click="showChild('本级收入合计')">
+                    <div class="flx " @click="showChild('本级收入合计'),type=2,exFlg = false">
                         <div class="box bk g-mt-50 cursor"  v-if="baseData.jMap!=null" :style="{ height: baseData.jMap[1][0].sum<50? '50px': baseData.jMap[1][0].sum + 'px',width:baseData.jMap[1][0].sum<50? '50px': baseData.jMap[1][0].sum + 'px' }">
                             <p class="boxtxt" >{{baseData.jMap[1][0].sum}}</p>
                         </div>
                         <p class="g-mt-10 name"  >本级收入合计</p>
                     </div>
-                    <div class="flx">
+                    <div class="flx" @click="getQueryBudgetGGYSByHTB('本级支出合计'),type=1,exFlg = false">
                         <div class="box bk g-mt-50 cursor"  v-if="baseData.jMap!=null" :style="{ height: baseData.jMap[2][1].sum<50? '50px': baseData.jMap[2][1].sum + 'px',width:baseData.jMap[2][1].sum<50? '50px': baseData.jMap[2][1].sum + 'px' }">
                             <p class="boxtxt" >{{baseData.jMap[2][1].sum}}</p>
                         </div>
@@ -58,13 +74,13 @@
                 <p class="name"> 单位：亿元</p>
                 </div>
                 <div class="boxs" style="top:-110px">
-                    <div class="flx" @click="showChild2('转移性收入')">
+                    <div class="flx" @click="showChild2('转移性收入'),type=2,exFlg = false">
                         <div class="box bk g-mt-50 cursor"  v-if="baseData.jMap!=null" :style="{ height: baseData.jMap[1][1].sum<50? '50px': baseData.jMap[1][1].sum + 'px',width:baseData.jMap[1][1].sum<50? '50px': baseData.jMap[1][1].sum + 'px' }">
                             <p class="boxtxt" >{{baseData.jMap[1][1].sum}}</p>
                         </div>
                         <p class="g-mt-10 name"  >转移性收入</p>
                     </div>
-                    <div class="flx">
+                    <div class="flx"  @click="getQueryBudgetGGYSByOID('转移性支出'),type=1,exFlg = false">
                         <div class="box bk g-mt-50 cursor"  v-if="baseData.jMap!=null" :style="{ height: baseData.jMap[2][1].sum<50? '50px': baseData.jMap[2][1].sum + 'px',width:baseData.jMap[2][1].sum<50? '50px': baseData.jMap[2][1].sum + 'px'}">
                             <p class="boxtxt" >{{baseData.jMap[2][1].sum}}</p>
                         </div>
@@ -100,16 +116,16 @@
                         :data="chartData.tableData"
                         style="width: 100%">
                             <el-table-column
-                            prop="date"
+                            prop="flag"
                             label="警示灯"
                             width="150">
                             </el-table-column>
                             <el-table-column
-                            prop="sxsj"
+                            prop="cg_name"
                             label="预警指标">
                             </el-table-column>
                             <el-table-column
-                            prop="province"
+                            prop="result"
                             label="指标结果">
                             </el-table-column>
                     </el-table>
@@ -117,7 +133,7 @@
                 <div v-show="tabPosition=='对应单位'">
                     <p class="tabtit">{{title}}</p>
                 </div>
-                <div v-show="tabPosition=='说明'">
+                <div v-if="tabPosition=='说明'&&exFlg">
                     <p class="tabtit">{{title}}</p>
                     <el-tree 
                         ref="explanTree" lazy  
@@ -125,7 +141,6 @@
                        :load="initExplain"
                        :data="explainData"
                        :props="defaultProps"
-
                      ></el-tree>
                 </div>
                 <span slot="title">{{title}}</span>
@@ -135,7 +150,7 @@
 </template>
 <script>
 import echarts from 'echarts'
-import {toGGYSMapPage,queryBudgetGGYSTax,queryBudgetGGYSByTID,querySubjectLevel,queryBudgetGGYSByNDTR,queryBudgetGGYSSSByChild} from "@/api/budget/";
+import {queryBudgetGGYSByOID,toGGYSMapPage,queryBudgetGGYSTax,queryBudgetGGYSByTID,querySubjectLevel,queryBudgetGGYSByNDTR,singleAlert,queryBudgetGGYSByHTB,queryBudgetGGYSSSByChild} from "@/api/budget/";
 import  '@/assets/css/index.css' 
 import ToolBar from '@/components/ToolBar/ToolBar.vue';
 import store from '@/store';
@@ -162,11 +177,14 @@ import store from '@/store';
                 stat:0,
                 explainData:[],
                 defaultProps: {
-                children:"children",
-                label:"name",
-                isLeaf:"leaf",
-               
-             }
+                    children:"children",
+                    label:"name",
+                    isLeaf:"leaf",
+                },
+                flg:true,
+                type:'2',
+                exFlg:false,
+                ExCode:''
             }
         },
         components: {
@@ -219,8 +237,6 @@ import store from '@/store';
                 myChart.setOption(option)
             },
             showChild(title){
-                this.drawer = true
-                this.title = title
                 queryBudgetGGYSTax(this.params).then(res => {
                     if (res.code === 200) {
                         this.incomData = res.data;
@@ -232,16 +248,15 @@ import store from '@/store';
                             tableData:res.data.alert
 
                         }
+                        this.showDraw(title) 
                         this.initDraw()
                     }
                 });
             },
             handleNodeClick(data) {
-                this.initExplain(data.id,true)
+                this.initExplain(data.id,false)
             },
             showChild2(title){
-                this.title = title
-                this.drawer = true
                 queryBudgetGGYSByTID(this.params).then(res => {
                     if (res.code === 200) {
                         this.incomData = res.data;
@@ -253,6 +268,7 @@ import store from '@/store';
                             tableData:res.data.alert
                         }
                         this.initDraw()
+                        this.showDraw(title) 
                     }
                 });
             },
@@ -445,18 +461,32 @@ import store from '@/store';
             },
             initExplain(node, resolve){
                 let pid 
-                let params ={
+                let code = [[230],[101,103],[110],[ 201,202,203,204,205,206,207,208,210,211,212,213,214,215,216,217,219,220,221,222,227,232,229]]
+                if(this.title=='本级收入合计'){
+                   code = code[1].toString()
+                }else if(this.title=='本级支出合计'){
+                   code = code[3].toString()()
+                }else if(this.title=='转移性收入'){ //110
+                   code =  code[2].toString()
+                }else if(this.title=='转移性收入'){//230
+                   code =  code[0].toString()
+                }else{
+                   code = this.ExCode
+                }
+                let params ={ 
                     flag: 1 ,
-                    type:2,//分收入和支出：其中支出1：收入2
-                    code:'101,103',
+                    type:this.type,//分收入和支出：其中支出1：收入2
+                    code:code,
                     pid:pid
                 }
-                if (node.level != 0) {
-                    delete params.code
-                    if(node.data){
-                        params.pid = node.data.id
-                    }
-                } 
+                if(node!=undefined){
+                   if (node.level != 0) {
+                        delete params.code
+                        if(node.data){
+                            params.pid = node.data.id
+                        }
+                    } 
+                }
                 querySubjectLevel(params).then(res => {
                     if (res.code === 200) {
                         let rootChildren = [];
@@ -487,28 +517,83 @@ import store from '@/store';
                     if (res.code === 200) {
                         this.ggybData = res.data
                         let dom = this.$refs.parent
-                        dom.style.width = dom.offsetWidth+300+'px'
+                        if(this.flg){
+                            dom.style.width = dom.offsetWidth+300+'px'
+                            this.flg = false;
+                        }
+                         this.showDraw(name) 
+
                     }
                 });
+            },
+            showDraw(name){
+                this.title = name
+                this.drawer = true
+                this.exFlg = true
             },
             getYsby2(code,name){
                  let params ={
                     year: this.params.year,
                     code: code
                 }
-                this.title = name
-                this.drawer = true
                 queryBudgetGGYSSSByChild(params).then(res => {
                     if (res.code === 200) {
                          this.chartData = {
                             polyline : res.data.his,
                             pie:res.data.take,
                             bord:res.data.bord,
-                            tableData:res.data.alert.data
                         }
+                        this.getSingleAlert(code,res.data.alert.data[0].id)
+                        this.showDraw(name) 
+                    }
+                });
+            },
+            getSingleAlert(bmCode,quotaId){
+                let params = {
+                    quotaId: quotaId,
+                    bmCode: bmCode
+                }
+                 singleAlert(params).then(res => {
+                    if (res.code === 200) {
+                         this.chartData.tableData=[res.data.deptLists]
+                         this.initDraw()
+                    }
+                });
+            },
+            getQueryBudgetGGYSByHTB(title){
+                queryBudgetGGYSByHTB(this.params).then(res => {
+                    if (res.code === 200) {
+                        this.incomData = res.data;
+                        this.stat = 0
+                        // this.chartData = {
+                        //     polyline : res.data.his,
+                        //     pie:res.data.take,
+                        //     bord:res.data.bord,
+                        //     tableData:res.data.alert
+
+                        // }
+                        this.showDraw(title) 
                         this.initDraw()
                     }
                 });
+            },
+            getQueryBudgetGGYSByOID(title){
+                 
+                queryBudgetGGYSByOID(this.params).then(res => {
+                    if (res.code === 200) {
+                        this.incomData = res.data;
+                        this.stat = 0
+                        // this.chartData = {
+                        //     polyline : res.data.his,
+                        //     pie:res.data.take,
+                        //     bord:res.data.bord,
+                        //     tableData:res.data.alert
+                        // }
+                        this.initDraw()
+                        this.showDraw(title)
+                    }
+                });
+
             }
         },
         created() {

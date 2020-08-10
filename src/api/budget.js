@@ -110,4 +110,11 @@ export function queryBudgetGGYSSSByChild(params) {
   })
 }
 
-
+//监测预警
+export function singleAlert(params) {
+  return request({
+    url: '/alert/alert/singleAlert',
+    method: 'get',
+    params: params
+  })
+}
