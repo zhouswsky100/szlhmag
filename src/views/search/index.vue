@@ -158,8 +158,6 @@ import store from '@/store';
 </script>
 
 <style scoped>
-
-
 .drwaerCont /deep/.el-drawer__header {
  font-size: 24px;
  background-color: rgb(24, 144, 255);

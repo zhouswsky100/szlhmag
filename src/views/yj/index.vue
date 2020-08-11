@@ -329,8 +329,7 @@
             </tr>
              <tr>
                 <td  class="w80">预警依据 </td>
-                 <td> {{gridData.fxyj}}</td>
-
+                <td> {{gridData.fxyj}}</td>
             </tr>
              <tr>
                 <td  class="w80">预警明细 </td>
@@ -339,17 +338,15 @@
             </tr>
              <tr>
                 <td  class="w80">预警示图 </td>
-                 <td> {{gridData.echart}}</td>
-
+                <td>  
+                    <div id="main"  v-show="gridData.echart=='eChart1'"></div>  
+                    <div id="main2" v-show="gridData.echart=='eChart2'"></div>  
+                    <div id="main3" v-show="gridData.echart=='eChart3'"></div>
+                    <div id="main4" v-show="gridData.echart=='eChart4'"></div>
+                    <div  v-if="gridData.echart=='default'">无示图</div>
+                </td>
             </tr>
-        
         </table>
-         
-               <div id="main"></div>  
-               <div id="main2"></div>  
-               <div id="main3"></div>
-               <div id="main4"></div>
-
         </el-dialog>
                        
 
@@ -404,7 +401,6 @@ export default {
           if(this.dialogTableVisible){
                 this.dialogTableVisible = false
           }else{
-              console.log(scope)
                  this.dialogTableVisible = true
                  this.gridData = scope.row
                  console.log(this.fxmd )

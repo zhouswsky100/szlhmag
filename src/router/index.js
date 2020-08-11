@@ -73,6 +73,11 @@ export const constantRoutes = [{
     component: (resolve) => require(['@/views/commonBudget/baseData'], resolve),
     hidden: true
   },
+  {
+    path: '/toDeptData',
+    component: (resolve) => require(['@/views/commonBudget/toDeptData'], resolve),
+    hidden: true
+  },
 
   // {
   //   path: '',

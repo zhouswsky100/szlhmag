@@ -117,6 +117,11 @@
                             prop="outSum"
                             label="	支出">
                         </el-table-column>
+                       <el-table-column label="图表" width="400">
+                            <template slot-scope="scope">
+                                  <p class="cursor" @click="goUrl('/toDeptData',scope.row.deptId,scope.row.deptName)">图表</p>
+                            </template>
+                        </el-table-column>
                     </el-table>
                      <el-pagination
                         @size-change="handleSizeChange"
@@ -285,8 +290,8 @@ import store from '@/store';
                     this.initAccounts();
                 }
             },
-            goUrl(url){
-                this.$router.push({path:url, query:{ year:this.year }})
+            goUrl(url,fjdpcode,title){
+                this.$router.push({path:url, query:{ year:this.year,fjdpcode:fjdpcode,title:title }})
             },
             initData(){
                 this.loading = true

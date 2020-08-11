@@ -110,6 +110,39 @@ export function queryBudgetGGYSSSByChild(params) {
   })
 }
 
+export function queryBudgetToDeptMapPage(params) {
+  return request({
+    url: '/budgetfinal/budget/toDeptMapPage',
+    method: 'get',
+    params: params
+  })
+}
+
+export function queryDeptBudgetZCByOne(params) {
+  return request({
+    url: '/budgetfinal/budget/queryDeptBudgetZCByOne',
+    method: 'get',
+    params: params
+  })
+}
+
+export function queryDeptBudgetF0(params) {
+  return request({
+    url: '/budgetfinal/budget/queryDeptBudgetF0',
+    method: 'get',
+    params: params
+  })
+}
+
+export function queryDeptBudgetZCTablesByOne(params) {
+  return request({
+    url: '/budgetfinal/budget/queryDeptBudgetZCTablesByOne',
+    method: 'get',
+    params: params
+  })
+}
+
+
 //监测预警
 export function singleAlert(params) {
   return request({
@@ -118,3 +151,4 @@ export function singleAlert(params) {
     params: params
   })
 }
+

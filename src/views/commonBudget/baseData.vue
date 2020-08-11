@@ -1,30 +1,19 @@
 <template>
-    <div class="cont "  ref="parent">
+    <div class="cont " ref="parent">
         <div class="flexs">
-           <!-- <div class="child " style=" flex-wrap: wrap;width:500px;flex-direction: inherit;margin-left:    0px;" v-if="ggybData.bord!=null&& stat==0"> 
+            <div class="child " style=" align-items: center; flex-direction: row;justify-content: center; height: 600px; flex-wrap: wrap;width:500px;margin-left:0px;" v-if="ggybData.bord!=null &&stat==0"> 
                     <div class="flx" 
                         v-for= "(item,index)  in ggybData.bord" 
                         :key="index"
                         @click="getYsby2(item.code,item.name)"
                         v-if="item.sum>0"
                         style="margin-left:30px;width:100px;height: 150px;" >
-                        <div  class="box bk cursor g-mt-50 cursor" :style="{ height:item.sum<50? '50px': item.sum*0.7 + 'px',width:item.sum<50? '50px': item.sum*0.7+ 'px' }">
-                            <p class="boxtxt" >{{item.sum}}</p>
+                        <div class="flx2">
+                            <div  class="box bk cursor g-mt-50 cursor" :style="{ height:item.sum<50? '50px': item.sum*0.7 + 'px',width:item.sum<50? '50px': item.sum*0.7+ 'px' }">
+                                <p class="boxtxt " >{{item.sum}}</p>
+                            </div>
+                        <p class="g-mt-10 name fdis"   v-if="item.sum">{{item.name}}</p>
                         </div>
-                        <p class="g-mt-10 name"   v-if="item.sum">{{item.name}}</p>
-                    </div>
-            </div>-->
-              <div class="child " style=" align-items: center; justify-content: center;flex-direction: row;writing-mode: vertical-rl;   height: 600px; flex-wrap: wrap;width:500px;margin-left:0px;" v-if="ggybData.bord!=null &&stat==0"> 
-                    <div class="flx" 
-                        v-for= "(item,index)  in ggybData.bord" 
-                        :key="index"
-                        @click="getYsby2(item.code,item.name)"
-                        v-if="item.sum>0"
-                        style="margin-left:30px;width:100px;height: 150px;" >
-                        <div  class="box bk cursor g-mt-50 cursor" :style="{ height:item.sum<50? '50px': item.sum*0.7 + 'px',width:item.sum<50? '50px': item.sum*0.7+ 'px' }">
-                            <p class="boxtxt" >{{item.sum}}</p>
-                        </div>
-                        <p class="g-mt-10 name"   v-if="item.sum">{{item.name}}</p>
                     </div>
             </div>
             <div class="child" v-if="stat==0" > 
@@ -88,6 +77,34 @@
                     </div>
                 </div>
             </div>
+            <div class="child " style=" align-items: center; flex-direction: row;justify-content: center; height: 700px; flex-wrap: wrap;width:800px;margin-left:-200px;" v-if="ggybData2.bord!=null &&stat==3"> 
+                    <div class="flx" 
+                        v-for= "(item,index)  in ggybData2.bord" 
+                        :key="index"
+                        v-if="item.sum>0"
+                        style="margin-left:30px;width:100px;height: 150px;" >
+                        <div class="flx2">
+                            <div  class="box bk cursor g-mt-50 cursor" :style="{ height:item.sum<50? '50px': item.sum*0.7 + 'px',width:item.sum<50? '50px': item.sum*0.7+ 'px' }">
+                                <p class="boxtxt " >{{item.sum}}</p>
+                            </div>
+                        <p class="g-mt-10 name fdis"   v-if="item.sum">{{item.name.split('、')[1]}}</p>
+                        </div>
+                    </div>
+            </div>
+            <div class="child" v-if="stat==4"  style="top: 400px;left: -150px;"> 
+                <div class="flx" 
+                    v-for= "(item,index) in ggybData4.bord" 
+                    :key="index"
+                        v-if="item.sum>0"
+                    @click="exFlg = false,ExCode=item.code"
+                    style="margin-bottom: 50px;" >
+                    <div  class="box bk cursor g-mt-50 cursor" :style="{ height:item.sum<50? '50px': item.sum*0.7 + 'px',width:item.sum<50? '50px': item.sum*0.7+ 'px' }">
+                        <p class="boxtxt" >{{item.sum}}</p>
+                    </div>
+                    <p class="g-mt-10 name"   v-if="item.sum">{{item.name}}</p>
+                </div>
+            </div>
+
         </div> 
         <div class="drwaerCont">
             <el-drawer
@@ -182,9 +199,13 @@ import store from '@/store';
                     isLeaf:"leaf",
                 },
                 flg:true,
+                flg2:true,
                 type:'2',
                 exFlg:false,
-                ExCode:''
+                ExCode:'',
+                ggybData2:'',
+                ggybData4:''
+
             }
         },
         components: {
@@ -517,10 +538,10 @@ import store from '@/store';
                     if (res.code === 200) {
                         this.ggybData = res.data
                         let dom = this.$refs.parent
-                        if(this.flg){
-                            dom.style.width = dom.offsetWidth+300+'px'
-                            this.flg = false;
-                        }
+                        // if(this.flg){
+                        //     dom.style.width = dom.offsetWidth+300+'px'
+                        //     this.flg = false;
+                        // }
                          this.showDraw(name) 
 
                     }
@@ -563,34 +584,37 @@ import store from '@/store';
             getQueryBudgetGGYSByHTB(title){
                 queryBudgetGGYSByHTB(this.params).then(res => {
                     if (res.code === 200) {
-                        this.incomData = res.data;
-                        this.stat = 0
-                        // this.chartData = {
-                        //     polyline : res.data.his,
-                        //     pie:res.data.take,
-                        //     bord:res.data.bord,
-                        //     tableData:res.data.alert
-
+                        this.ggybData2 = res.data;
+                        this.stat = 3
+                        // let dom = this.$refs.parent
+                        // if(this.flg2){
+                        //     dom.style.width = dom.offsetWidth+400+'px'
+                        //     this.flg2 = false;
                         // }
+                        this.chartData = {
+                            polyline : res.data.his,
+                            pie:res.data.take,
+                            bord:res.data.bord,
+                            tableData:res.data.alert
+                        }
                         this.showDraw(title) 
                         this.initDraw()
                     }
                 });
             },
             getQueryBudgetGGYSByOID(title){
-                 
                 queryBudgetGGYSByOID(this.params).then(res => {
                     if (res.code === 200) {
-                        this.incomData = res.data;
-                        this.stat = 0
-                        // this.chartData = {
-                        //     polyline : res.data.his,
-                        //     pie:res.data.take,
-                        //     bord:res.data.bord,
-                        //     tableData:res.data.alert
-                        // }
-                        this.initDraw()
+                        this.ggybData4 = res.data;
+                        this.stat = 4
+                        this.chartData = {
+                            polyline : res.data.his,
+                            pie:res.data.take,
+                            bord:res.data.bord,
+                            tableData:res.data.alert
+                        }
                         this.showDraw(title)
+                        this.initDraw()
                     }
                 });
 
@@ -651,6 +675,11 @@ import store from '@/store';
         align-items: center;
         flex-direction: column;
     }
+    .flex3{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
     
     .box{
         display: flex;
@@ -675,11 +704,15 @@ import store from '@/store';
         display: flex;
         justify-content: space-around;
         position: relative;
+        width:100%;
+        left: -30px;
     }
     .name{
         font-size: 18px;
         color: #858DA1;
+        text-align: center;
         font-family: PingFang-SC-Medium;
+        width: 100px;
     }
     .chart {
         width: 400px;
@@ -694,7 +727,7 @@ import store from '@/store';
         overflow:auto;
      }
      .child{
-         left: 100px;
+         left: 0px;
          top:20px;
          position: relative;
          display: flex;
