@@ -11,13 +11,13 @@
                         <p class="boxtxt">一般公共预算</p>
                         <p class="g-mt-10" v-if="finData.ggys!=null">总收支：{{finData.ggys.income}}亿元</p>
                     </div>
-                    <div class="box bk g-mt-50 cursor"  style="background-color: #24C16B;z-index:999">
+                    <div class="box bk g-mt-50 cursor"  @click="goUrl('/budgetData')"  style="background-color: #24C16B;z-index:999">
                         <p class="boxtxt">政府性</p>
                         <p class=" boxtxt g-mt-5">基金预算</p>
                         <p class="g-mt-10" v-if="finData.zfxjj!=null">总收支：{{finData.zfxjj.income}}亿元</p>
                     </div>
                </div>
-                <div class="box bk g-mt-50 cursor"  style="background-color: #F86F8D;">
+                <div class="box bk g-mt-50 cursor" @click="goUrl('/nationData')"  style="background-color: #F86F8D;">
                     <p class="boxtxt">国有资本</p>
                     <p class=" boxtxt g-mt-5">经营预算</p>
                     <p class="g-mt-10" v-if="finData.gyzb!=null">总收支：{{finData.gyzb.income}}亿元</p>

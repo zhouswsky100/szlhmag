@@ -29,10 +29,9 @@
                         style="width: 100%">
                         <el-table-column label="标题" width="400">
                             <template slot-scope="scope">
-                                  <p  @click="openPdf(scope.row)" class="cursor">{{ scope.row.tsfName }}</p>
+                                 <p  @click="openPdf(scope.row)" class="cursor">{{ scope.row.tsfName }}</p>
                             </template>
                         </el-table-column>
-                        
                         <el-table-column
                             prop="tsfSize"
                             label="	文件大小">
@@ -74,7 +73,7 @@
                     <div class="mt-20">
                        <div class="head">
                          <img src="../../assets/images/search/dept-icon.png" style="width: 45px; height: 45px">
-                         <span class="ptxt">政府性基金预算 </span> 
+                         <span class="ptxt cursor"  @click="goUrl('/budgetData')">政府性基金预算 </span> 
                          <span class="ptl_100 txt">| 收入：<span   v-if="tableData.zfxjj!=null"  class="txt">{{tableData.zfxjj.incomeSum}} 亿元</span> </span> 
                          <span class="txt g-pl-10"> | 支出：<span  v-if="tableData.zfxjj!=null" class="txt">{{tableData.zfxjj.spendSum}} 亿元</span> </span> 
                        </div>  
@@ -87,7 +86,7 @@
                     <div  class="mt-20">
                        <div class="head">
                          <img src="../../assets/images/search/dept-icon.png" style="width: 45px; height: 45px">
-                         <span class="ptxt">国有资本经营预算 </span> 
+                         <span class="ptxt cursor"  @click="goUrl('/nationData')">国有资本经营预算 </span> 
                          <span class="ptl_100 txt">| 收入：<span class="txt" v-if="tableData.gyzb!=null" >{{tableData.gyzb.incomeSum}} 亿元</span> </span> 
                          <span class="txt g-pl-10"> | 支出：<span class="txt" v-if="tableData.gyzb!=null" >{{tableData.gyzb.spendSum}} 亿元</span> </span> 
                        </div>  

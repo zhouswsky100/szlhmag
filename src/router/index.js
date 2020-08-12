@@ -78,6 +78,16 @@ export const constantRoutes = [{
     component: (resolve) => require(['@/views/commonBudget/toDeptData'], resolve),
     hidden: true
   },
+  {
+    path: '/nationData',
+    component: (resolve) => require(['@/views/commonBudget/nationData'], resolve),
+    hidden: true
+  },
+  {
+    path: '/budgetData',
+    component: (resolve) => require(['@/views/commonBudget/budgetData'], resolve),
+    hidden: true
+  },
 
   // {
   //   path: '',

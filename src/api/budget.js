@@ -142,6 +142,52 @@ export function queryDeptBudgetZCTablesByOne(params) {
   })
 }
 
+export function queryDeptBudgetZCBySecond(params) {
+  return request({
+    url: '/budgetfinal/budget/queryDeptBudgetZCBySecond',
+    method: 'get',
+    params: params
+  })
+}
+
+export function queryDeptBudgetZC(params) {
+  return request({
+    url: '/budgetfinal/budget/queryDeptBudgetZC',
+    method: 'get',
+    params: params
+  })
+}
+
+export function querytoGYZBMapPage(params) {
+  return request({
+    url: '/budgetfinal/budget/toGYZBMapPage',
+    method: 'get',
+    params: params
+  })
+}
+export function queryBudgetGYZBZCByHTB(params) {
+  return request({
+    url: '/budgetfinal/budget/queryBudgetGYZBZCByHTB',
+    method: 'get',
+    params: params
+  })
+}
+
+export function querytoZFXJJMapPage(params) {
+  return request({
+    url: '/budgetfinal/budget/toZFXJJMapPage',
+    method: 'get',
+    params: params
+  })
+}
+export function queryBudgetZFXJJSRByHTB(params) {
+  return request({
+    url: '/budgetfinal/budget/queryBudgetZFXJJSRByHTB',
+    method: 'get',
+    params: params
+  })
+}
+
 
 //监测预警
 export function singleAlert(params) {
@@ -151,4 +197,5 @@ export function singleAlert(params) {
     params: params
   })
 }
+
 
