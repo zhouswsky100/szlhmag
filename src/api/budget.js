@@ -188,6 +188,14 @@ export function queryBudgetZFXJJSRByHTB(params) {
   })
 }
 
+export function queryBudgetGGYSByZYXSRByChild(params) {
+  return request({
+    url: '/budgetfinal/budget/queryBudgetGGYSByZYXSRByChild',
+    method: 'get',
+    params: params
+  })
+}
+
 
 //监测预警
 export function singleAlert(params) {

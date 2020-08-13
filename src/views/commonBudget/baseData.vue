@@ -1,13 +1,13 @@
 <template>
     <div class="cont " ref="parent">
         <div class="flexs">
-            <div class="child " style=" align-items: center; flex-direction: row;justify-content: center; height: 600px; flex-wrap: wrap;width:500px;margin-left:0px;" v-if="ggybData.bord!=null &&stat==0"> 
+            <div class="child " style="writing-mode: vertical-rl;margin: 0 3vw;margin-left: 500px; align-items: center; flex-direction: row;justify-content: center; height: 600px; flex-wrap: wrap;width:auto;" v-if="ggybData.bord!=null &&stat==0"> 
                     <div class="flx" 
                         v-for= "(item,index)  in ggybData.bord" 
                         :key="index"
                         @click="getYsby2(item.code,item.name)"
                         v-if="item.sum>0"
-                        style="margin-left:30px;width:100px;height: 150px;" >
+                        style="width:100px;height: 150px;margin-bottom: 0px;" >
                         <div class="flx2">
                             <div  class="box bk cursor g-mt-50 cursor" :style="{ height:item.sum<50? '50px': item.sum*0.7 + 'px',width:item.sum<50? '50px': item.sum*0.7+ 'px' }">
                                 <p class="boxtxt " >{{item.sum}}</p>
@@ -26,7 +26,21 @@
                         <div  class="box bk cursor g-mt-50 cursor"   :style="{ height:item.sum<50? '50px': item.sum*0.7 + 'px',width:item.sum<50? '50px': item.sum*0.7+ 'px' }">
                             <p class="boxtxt" >{{item.sum}}</p>
                         </div>
-                        <p class="g-mt-10 name"   v-if="item.sum">{{item.name.split('、')[1]}}</p>
+                        <p class="g-mt-10 name"   v-if="item.sum">{{item.name}}</p>
+                    </div>
+            </div>
+            <div class="child " style="writing-mode: vertical-rl;margin-left: 600px;  align-items: center; flex-direction: row;justify-content: center; height: 700px; flex-wrap: wrap;width:auo;" v-if="ggybData2.bord!=null &&stat==3"> 
+                    <div class="flx" 
+                        v-for= "(item,index)  in ggybData2.bord" 
+                        :key="index"
+                        v-if="item.sum>0"
+                        style="margin-left:30px;width:100px;height: 150px;" >
+                        <div class="flx2">
+                            <div  class="box bk cursor g-mt-50 cursor" :style="{ height:item.sum<50? '50px': item.sum*0.7 + 'px',width:item.sum<50? '50px': item.sum*0.7+ 'px' }">
+                                <p class="boxtxt " >{{item.sum}}</p>
+                            </div>
+                        <p class="g-mt-10 name fdis"   v-if="item.sum">{{item.name.split('、')[1]}}</p>
+                        </div>
                     </div>
             </div>
             <div class="child" v-if="stat==1" > 
@@ -43,7 +57,7 @@
                     </div>
             </div>
             <div class="fbox">
-                <div class="boxs" style="top:110px">
+                <div class="boxs" >
                     <div class="flx " @click="showChild('本级收入合计'),type=2,exFlg = false">
                         <div class="box bk g-mt-50 cursor"  v-if="baseData.jMap!=null" :style="{ height: baseData.jMap[1][0].sum<50? '50px': baseData.jMap[1][0].sum + 'px',width:baseData.jMap[1][0].sum<50? '50px': baseData.jMap[1][0].sum + 'px' }">
                             <p class="boxtxt" >{{baseData.jMap[1][0].sum}}</p>
@@ -57,12 +71,12 @@
                         <p class="g-mt-10 name"  >本级支出合计</p>
                     </div>
                 </div>
-               <p class="title">{{params.year}}一般公共预算数据关系</p>
                 <div class="flx2">
-                <div class="chart" id="main"></div>
-                <p class="name"> 单位：亿元</p>
+                    <p class="title">{{params.year}}一般公共预算数据关系</p>
+                    <div class="chart" id="main"></div>
+                    <p class="name"> 单位：亿元</p>
                 </div>
-                <div class="boxs" style="top:-110px">
+                <div class="boxs" >
                     <div class="flx" @click="showChild2('转移性收入'),type=2,exFlg = false">
                         <div class="box bk g-mt-50 cursor"  v-if="baseData.jMap!=null" :style="{ height: baseData.jMap[1][1].sum<50? '50px': baseData.jMap[1][1].sum + 'px',width:baseData.jMap[1][1].sum<50? '50px': baseData.jMap[1][1].sum + 'px' }">
                             <p class="boxtxt" >{{baseData.jMap[1][1].sum}}</p>
@@ -77,26 +91,25 @@
                     </div>
                 </div>
             </div>
-            <div class="child " style=" align-items: center; flex-direction: row;justify-content: center; height: 700px; flex-wrap: wrap;width:800px;margin-left:-200px;" v-if="ggybData2.bord!=null &&stat==3"> 
-                    <div class="flx" 
-                        v-for= "(item,index)  in ggybData2.bord" 
-                        :key="index"
+            <div class="child" v-if="stat==5" > 
+                <div class="flx" 
+                    v-for= "(item,index) in incomData.bord" 
+                    :key="index"
                         v-if="item.sum>0"
-                        style="margin-left:30px;width:100px;height: 150px;" >
-                        <div class="flx2">
-                            <div  class="box bk cursor g-mt-50 cursor" :style="{ height:item.sum<50? '50px': item.sum*0.7 + 'px',width:item.sum<50? '50px': item.sum*0.7+ 'px' }">
-                                <p class="boxtxt " >{{item.sum}}</p>
-                            </div>
-                        <p class="g-mt-10 name fdis"   v-if="item.sum">{{item.name.split('、')[1]}}</p>
-                        </div>
+                    @click="getYsby(item.code,item.name),exFlg = false,ExCode=item.code"
+                    style="margin-bottom: 50px;" >
+                    <div  class="box bk cursor g-mt-50 cursor"   :style="{ height:item.sum<50? '50px': item.sum*0.7 + 'px',width:item.sum<50? '50px': item.sum*0.7+ 'px' }">
+                        <p class="boxtxt" >{{item.sum}}</p>
                     </div>
+                    <p class="g-mt-10 name"   v-if="item.sum">{{item.name}}</p>
+                </div>
             </div>
-            <div class="child" v-if="stat==4"  style="top: 400px;left: -150px;"> 
+            <div class="child" v-if="stat==4"  > 
                 <div class="flx" 
                     v-for= "(item,index) in ggybData4.bord" 
                     :key="index"
                         v-if="item.sum>0"
-                    @click="exFlg = false,ExCode=item.code"
+                    @click="getQueryBudgetGGYSByZYXSRByChild(item.code,item.name),exFlg = false,ExCode=item.code"
                     style="margin-bottom: 50px;" >
                     <div  class="box bk cursor g-mt-50 cursor" :style="{ height:item.sum<50? '50px': item.sum*0.7 + 'px',width:item.sum<50? '50px': item.sum*0.7+ 'px' }">
                         <p class="boxtxt" >{{item.sum}}</p>
@@ -104,7 +117,6 @@
                     <p class="g-mt-10 name"   v-if="item.sum">{{item.name}}</p>
                 </div>
             </div>
-
         </div> 
         <div class="drwaerCont">
             <el-drawer
@@ -167,7 +179,7 @@
 </template>
 <script>
 import echarts from 'echarts'
-import {queryBudgetGGYSByOID,toGGYSMapPage,queryBudgetGGYSTax,queryBudgetGGYSByTID,querySubjectLevel,queryBudgetGGYSByNDTR,singleAlert,queryBudgetGGYSByHTB,queryBudgetGGYSSSByChild} from "@/api/budget/";
+import {queryBudgetGGYSByOID,toGGYSMapPage,queryBudgetGGYSByZYXSRByChild,queryBudgetGGYSTax,queryBudgetGGYSByTID,querySubjectLevel,queryBudgetGGYSByNDTR,singleAlert,queryBudgetGGYSByHTB,queryBudgetGGYSSSByChild} from "@/api/budget/";
 import  '@/assets/css/index.css' 
 import ToolBar from '@/components/ToolBar/ToolBar.vue';
 import store from '@/store';
@@ -188,7 +200,8 @@ import store from '@/store';
                 title:'本级收入合计',
                 tabPosition: '数据分析',
                 chartData:{
-                    bord:[]
+                    bord:[],
+                    tableData:[]
                 },
                 RMB:'亿元',
                 stat:0,
@@ -221,7 +234,8 @@ import store from '@/store';
                 });
             },
             initChart(){
-                let myChart = echarts.init(document.getElementById('main'));
+                let i = 0
+                let myCharts = echarts.init(document.getElementById('main'));
                 let option = {
                     tooltip : {
                         trigger: 'item',
@@ -255,7 +269,7 @@ import store from '@/store';
                         }
                     ]
                 };
-                myChart.setOption(option)
+                myCharts.setOption(option)
             },
             showChild(title){
                 queryBudgetGGYSTax(this.params).then(res => {
@@ -270,7 +284,6 @@ import store from '@/store';
 
                         }
                         this.showDraw(title) 
-                        this.initDraw()
                     }
                 });
             },
@@ -281,14 +294,13 @@ import store from '@/store';
                 queryBudgetGGYSByTID(this.params).then(res => {
                     if (res.code === 200) {
                         this.incomData = res.data;
-                        this.stat = 1
+                        this.stat = 5
                         this.chartData = {
                             polyline : res.data.his,
                             pie:res.data.take,
                             bord:res.data.bord,
                             tableData:res.data.alert
                         }
-                        this.initDraw()
                         this.showDraw(title) 
                     }
                 });
@@ -551,6 +563,28 @@ import store from '@/store';
                 this.title = name
                 this.drawer = true
                 this.exFlg = true
+                setTimeout(() => {
+                  this.initDraw()
+                  this.initChart()
+                }, 100);
+            },
+            getQueryBudgetGGYSByZYXSRByChild(code,name){
+                 let params ={
+                    year: this.params.year,
+                    code: code
+                }
+                queryBudgetGGYSSSByChild(params).then(res => {
+                    if (res.code === 200) {
+                         this.chartData = {
+                            polyline : res.data.his,
+                            pie:res.data.take,
+                            bord:res.data.bord,
+                        }
+                        this.getSingleAlert(code,res.data.alert.data[0].id)
+                        this.showDraw(name) 
+                    }
+                });
+
             },
             getYsby2(code,name){
                  let params ={
@@ -586,11 +620,6 @@ import store from '@/store';
                     if (res.code === 200) {
                         this.ggybData2 = res.data;
                         this.stat = 3
-                        // let dom = this.$refs.parent
-                        // if(this.flg2){
-                        //     dom.style.width = dom.offsetWidth+400+'px'
-                        //     this.flg2 = false;
-                        // }
                         this.chartData = {
                             polyline : res.data.his,
                             pie:res.data.take,
@@ -598,7 +627,6 @@ import store from '@/store';
                             tableData:res.data.alert
                         }
                         this.showDraw(title) 
-                        this.initDraw()
                     }
                 });
             },
@@ -611,10 +639,9 @@ import store from '@/store';
                             polyline : res.data.his,
                             pie:res.data.take,
                             bord:res.data.bord,
-                            tableData:res.data.alert
+                            tableData:res.data.alert.data
                         }
                         this.showDraw(title)
-                        this.initDraw()
                     }
                 });
 
@@ -641,16 +668,16 @@ import store from '@/store';
 
 <style scoped>
     .fbox{
-        top: -90px;
-        position: relative;
-        flex:1
+       position: relative;
+       display: flex;
     }
     .title{
         font-size: 22px;
         color: #282E3E;
         text-align: center;
         font-family: PingFang-SC-Medium;
-        margin-top: 20px;
+        margin-top: 80px;
+        margin-bottom: 50px;
     }
     .flx{
         display: flex;
@@ -667,6 +694,8 @@ import store from '@/store';
         animation-fill-mode: both;
         animation-name: bounceIn;
         z-index: 999;
+        margin-bottom: 40px;
+        writing-mode: horizontal-tb;
     }
     
     .flx2{
@@ -702,17 +731,17 @@ import store from '@/store';
     }
     .boxs{
         display: flex;
-        justify-content: space-around;
+        flex-direction: column;
         position: relative;
-        width:100%;
-        left: -30px;
+        width: 300px;
+        justify-content: center;
     }
     .name{
         font-size: 18px;
         color: #858DA1;
         text-align: center;
         font-family: PingFang-SC-Medium;
-        width: 100px;
+        width: 150px;
     }
     .chart {
         width: 400px;
@@ -722,7 +751,6 @@ import store from '@/store';
      .cont{
         top: 0;
         left: 0;
-        width: 100%;
         height: 100%;
         overflow:auto;
      }
@@ -746,7 +774,8 @@ import store from '@/store';
      }
      .flexs{
         display: flex;
-        width: 100%;
+        justify-content: center;
+        align-items: center;
      }
      .drwaerCont /deep/.el-drawer__header {
         font-size: 24px;
